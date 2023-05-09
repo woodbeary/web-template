@@ -11,12 +11,37 @@ import PageBuilder from '../../containers/PageBuilder/PageBuilder';
 import FallbackPage from './FallbackPage';
 import { ASSET_NAME } from './LandingPage.duck';
 
-export const LandingPageComponent = props => {
-  const { pageAssetsData, inProgress, error } = props;
+const SectionUser = props => {
+  const { sectionId, displayName } = props;
+  return (
+    <section id={sectionId}>
+      <h2>{displayName}</h2>
+    </section>
+  );
+};
 
+export const LandingPageComponent = props => {
+  const { pageAssetsData, inProgress, error, isAuthenticated, currentUser } = props;
+
+  const pageData = pageAssetsData?.[camelize(ASSET_NAME)]?.data;
+  const sectionUserName = {
+    sectionId: 'authenticated-user',
+    sectionType: 'customUser',
+    displayName: currentUser?.attributes?.profile?.displayName,
+  };
+  const customSections =
+    isAuthenticated && pageData ? [...pageData.sections, sectionUserName] : pageData?.sections;
   return (
     <PageBuilder
-      pageAssetsData={pageAssetsData?.[camelize(ASSET_NAME)]?.data}
+      pageAssetsData={{
+        ...pageData,
+        sections: customSections,
+      }}
+      options={{
+        sectionComponents: {
+          customUser: { component: SectionUser },
+        },
+      }}
       inProgress={inProgress}
       error={error}
       fallbackPage={<FallbackPage error={error} />}
@@ -32,7 +57,9 @@ LandingPageComponent.propTypes = {
 
 const mapStateToProps = state => {
   const { pageAssetsData, inProgress, error } = state.hostedAssets || {};
-  return { pageAssetsData, inProgress, error };
+  const { isAuthenticated } = state.auth;
+  const { currentUser } = state.user;
+  return { pageAssetsData, inProgress, error, isAuthenticated, currentUser };
 };
 
 // Note: it is important that the withRouter HOC is **outside** the
