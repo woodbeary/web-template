@@ -257,6 +257,15 @@
                     </tr>
                   </tbody>
                 </table>
+                <div style="margin: 24px 0;">
+                  <p style="font-size: 16px; line-height: 1.4; margin: 16px 0; color: #484848;">Would you like insurance?</p>
+                  <div style="display: flex; align-items: center;">
+                    <input type="radio" id="insurance-yes" name="insurance" value="yes" style="margin-right: 8px;">
+                    <label for="insurance-yes" style="font-size: 16px; line-height: 1.4; margin-right: 16px; color: #484848;">Yes - $50</label>
+                    <input type="radio" id="insurance-no" name="insurance" value="no" style="margin-right: 8px;">
+                    <label for="insurance-no" style="font-size: 16px; line-height: 1.4; margin-right: 16px; color: #484848;">No - $0</label>
+                  </div>
+                </div>
                 <p style="font-size:16px;line-height:1.4;margin:16px 0;color:#484848;font-weight:700">You need to accept the request by {{> format-date date=delayed-transition.run-at}}. Otherwise the request will expire automatically and you won't get paid.</p>
                 <p style="font-size:16px;line-height:1.4;margin:16px 0;color:#484848">If the booked dates don't work for you, you can also choose to decline the request.</p>
                 <table style="padding:16px 0 0" align="center" border="0" cellPadding="0" cellSpacing="0" role="presentation" width="100%">
